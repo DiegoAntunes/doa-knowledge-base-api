@@ -1,4 +1,14 @@
-  export class Topic {
+export interface ITopic {
+    id: string;
+    name: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+    version: number;
+    parentTopicId?: string;
+  }
+  
+  export class Topic implements ITopic {
     id: string;
     name: string;
     content: string;
@@ -7,7 +17,7 @@
     version: number;
     parentTopicId?: string;
   
-    constructor(params: Topic) {
+    constructor(params: ITopic) {
       this.id = params.id;
       this.name = params.name;
       this.content = params.content;

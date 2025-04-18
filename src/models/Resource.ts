@@ -1,13 +1,25 @@
-export class Resource {
+export type ResourceType = 'video' | 'article' | 'pdf';
+
+export interface IResource {
   id: string;
   topicId: string;
   url: string;
   description: string;
-  type: string;
+  type: ResourceType;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export class Resource implements IResource {
+  id: string;
+  topicId: string;
+  url: string;
+  description: string;
+  type: ResourceType;
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(params: Resource) {
+  constructor(params: IResource) {
     this.id = params.id;
     this.topicId = params.topicId;
     this.url = params.url;
