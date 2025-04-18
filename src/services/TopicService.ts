@@ -22,6 +22,10 @@ export class TopicService {
     return readData();
   }
 
+  static getById(id: string): ITopic | undefined {
+    return readData().find(t => t.id === id);
+  }
+
   static getChildren(parentTopicId: string): ITopic[] {
     return readData().filter(t => t.parentTopicId === parentTopicId);
   }
@@ -47,10 +51,6 @@ export class TopicService {
     return buildTree(); // Start with topics that have no parent
   }
 
-  static getById(id: string): ITopic | undefined {
-    return readData().find(t => t.id === id);
-  }
-
   static getVersions(originalOrCurrentId: string): ITopic[] {
     const topics = readData();
     const topic = topics.find(t => t.id === originalOrCurrentId || t.originalId === originalOrCurrentId);
@@ -68,6 +68,25 @@ export class TopicService {
     return topics.find(
       t => t.originalId === topic.originalId && t.version === version
     );
+  }
+
+  static getTopicTree(id: string): any | null {
+    const topics = readData();
+    const root = topics.find(t => t.id === id);
+    if (!root) return null;
+  
+    function buildTree(topic: ITopic): any {
+      const children = topics
+        .filter(t => t.parentTopicId === topic.id)
+        .map(child => buildTree(child));
+  
+      return {
+        ...topic,
+        children
+      };
+    }
+  
+    return buildTree(root);
   }
   
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'originalId'>): ITopic {

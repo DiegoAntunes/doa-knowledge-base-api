@@ -48,6 +48,12 @@ export class TopicController {
   
     res.json(topicVersion);
   }
+
+  static getTree(req: Request, res: Response) {
+    const tree = TopicService.getTopicTree(req.params.id);
+    if (!tree) return res.status(404).json({ error: 'Topic not found' });
+    res.json(tree);
+  }
   
   static create(req: Request, res: Response) {
     const role = (req.headers['x-user-role'] as string) || 'Viewer';
