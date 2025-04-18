@@ -23,6 +23,30 @@ export class TopicController {
     if (!topic) return res.status(404).json({ error: 'Topic not found' });
     res.json(topic);
   }
+
+  static getVersions(req: Request, res: Response) {
+    const versions = TopicService.getVersions(req.params.id);
+    if (versions.length === 0) {
+      return res.status(404).json({ error: 'Topic not found' });
+    }
+    res.json(versions);
+  }
+  
+  static getSpecificVersion(req: Request, res: Response) {
+    const { id, versionNumber } = req.params;
+    const version = parseInt(versionNumber, 10);
+  
+    if (isNaN(version)) {
+      return res.status(400).json({ error: 'Invalid version number' });
+    }
+  
+    const topicVersion = TopicService.getSpecificVersion(id, version);
+    if (!topicVersion) {
+      return res.status(404).json({ error: 'Version not found' });
+    }
+  
+    res.json(topicVersion);
+  }
   
   static create(req: Request, res: Response) {
     const { name, content, parentTopicId } = req.body;

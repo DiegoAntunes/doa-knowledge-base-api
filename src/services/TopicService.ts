@@ -51,6 +51,25 @@ export class TopicService {
     return readData().find(t => t.id === id);
   }
 
+  static getVersions(originalOrCurrentId: string): ITopic[] {
+    const topics = readData();
+    const topic = topics.find(t => t.id === originalOrCurrentId || t.originalId === originalOrCurrentId);
+    if (!topic) return [];
+    return topics
+      .filter(t => t.originalId === topic.originalId)
+      .sort((a, b) => a.version - b.version);
+  }
+
+  static getSpecificVersion(id: string, version: number): ITopic | undefined {
+    const topics = readData();
+    const topic = topics.find(t => t.id === id || t.originalId === id);
+    if (!topic) return undefined;
+  
+    return topics.find(
+      t => t.originalId === topic.originalId && t.version === version
+    );
+  }
+  
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'originalId'>): ITopic {
     const topics = readData();
   
