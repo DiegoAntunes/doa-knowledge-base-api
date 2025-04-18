@@ -7,16 +7,21 @@ export class TopicController {
     res.json(topics);
   }
 
-  static getById(req: Request, res: Response) {
-    const topic = TopicService.getById(req.params.id);
-    if (!topic) return res.status(404).json({ error: 'Topic not found' });
-    res.json(topic);
-  }
-
   static getChildren(req: Request, res: Response) {
     const { id } = req.params;
     const children = TopicService.getChildren(id);
     res.json(children);
+  }
+
+  static getHierarchy(req: Request, res: Response) {
+    const hierarchy = TopicService.getHierarchy();
+    res.json(hierarchy);
+  }
+
+  static getById(req: Request, res: Response) {
+    const topic = TopicService.getById(req.params.id);
+    if (!topic) return res.status(404).json({ error: 'Topic not found' });
+    res.json(topic);
   }
   
   static create(req: Request, res: Response) {
@@ -31,7 +36,6 @@ export class TopicController {
     } catch (error) {
       res.status(400).json({ error: (error as Error).message });
     }
-    
   }
 
   static delete(req: Request, res: Response) {

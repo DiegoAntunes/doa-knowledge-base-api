@@ -22,12 +22,33 @@ export class TopicService {
     return readData();
   }
 
-  static getById(id: string): ITopic | undefined {
-    return readData().find(t => t.id === id);
-  }
-
   static getChildren(parentTopicId: string): ITopic[] {
     return readData().filter(t => t.parentTopicId === parentTopicId);
+  }
+
+  static getHierarchy(): ITopic[] {
+    const topics = readData();
+
+    function normalizeParentId(id: string | null | undefined): string | null {
+      return id && id.trim() !== '' ? id : null;
+    }
+
+    function buildTree(parentId?: string): (ITopic & { children: ITopic[] })[] {
+      const normalizedParentId = normalizeParentId(parentId);
+
+      return topics
+        .filter(t => normalizeParentId(t.parentTopicId) === normalizedParentId)
+        .map(t => ({
+          ...t,
+          children: buildTree(t.id)
+        }));
+    }
+  
+    return buildTree(); // Start with topics that have no parent
+  }
+
+  static getById(id: string): ITopic | undefined {
+    return readData().find(t => t.id === id);
   }
 
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version'>): ITopic {
