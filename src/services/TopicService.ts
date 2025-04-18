@@ -27,6 +27,13 @@ export class TopicService {
   }
 
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version'>): ITopic {
+    const topics = readData();
+  
+    // Validation of parent topic if provided
+    if (data.parentTopicId && !topics.find(t => t.id === data.parentTopicId)) {
+      throw new Error('Parent topic not found');
+    }
+  
     const newTopic: ITopic = {
       ...data,
       id: uuidv4(),
@@ -34,11 +41,12 @@ export class TopicService {
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    const topics = readData();
+  
     topics.push(newTopic);
     writeData(topics);
     return newTopic;
   }
+  
 
   static delete(id: string): boolean {
     const topics = readData();

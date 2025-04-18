@@ -18,8 +18,14 @@ export class TopicController {
     if (!name || !content) {
       return res.status(400).json({ error: 'Mandatory fields: name, content' });
     }
-    const topic = TopicService.create({ name, content, parentTopicId });
-    res.status(201).json(topic);
+
+    try {
+      const topic = TopicService.create({ name, content, parentTopicId });
+      res.status(201).json(topic);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+    
   }
 
   static delete(req: Request, res: Response) {

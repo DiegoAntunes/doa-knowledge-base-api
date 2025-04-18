@@ -7,5 +7,23 @@
     "version": 1,
     "createdAt": "2025-04-18T18:56:58.211Z",
     "updatedAt": "2025-04-18T18:56:58.211Z"
+  },
+  {
+    "name": "Topic 02",
+    "content": "Content topic 02",
+    "parentTopicId": "93478a6b-aed9-4a7a-8876-d319e96d19c0",
+    "id": "fc6c9618-b743-4ea6-96f8-785be1cd4c1f",
+    "version": 1,
+    "createdAt": "2025-04-18T19:04:23.400Z",
+    "updatedAt": "2025-04-18T19:04:23.400Z"
+  },
+  {
+    "name": "Topic 03",
+    "content": "Content topic 03",
+    "parentTopicId": "93478a6b-aed9-4a7a-8876-d319e96d19c0",
+    "id": "53d95b12-5841-462d-a407-81104c782fee",
+    "version": 1,
+    "createdAt": "2025-04-18T19:04:55.051Z",
+    "updatedAt": "2025-04-18T19:04:55.051Z"
   }
 ]
