@@ -38,6 +38,12 @@ export class TopicController {
     }
   }
 
+  static update(req: Request, res: Response) {
+    const updated = TopicService.update(req.params.id, req.body);
+    if (!updated) return res.status(404).json({ error: 'Topic not found' });
+    res.json(updated);
+  }
+
   static delete(req: Request, res: Response) {
     const success = TopicService.delete(req.params.id);
     if (!success) return res.status(404).json({ error: 'Topic not found' });

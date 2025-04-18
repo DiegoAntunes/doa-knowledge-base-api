@@ -8,6 +8,7 @@ router.get('/hierarchy', TopicController.getHierarchy);
 router.get('/:id/children', TopicController.getChildren);
 router.get('/:id', TopicController.getById.bind(TopicController));
 router.post('/', TopicController.create.bind(TopicController));
+router.put('/:id', TopicController.update.bind(TopicController));
 router.delete('/:id', TopicController.delete.bind(TopicController));
 
 export default router;

@@ -1,12 +1,14 @@
 export interface ITopic {
-    id: string;
-    name: string;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-    version: number;
-    parentTopicId?: string;
-  }
+  id: string; // unique version id
+  originalId: string; // base topic id (remains the same between versions)
+  name: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: number;
+  parentTopicId?: string;
+}
+
 
   export interface ITopicTree extends ITopic {
     children?: ITopicTree[];
@@ -14,6 +16,7 @@ export interface ITopic {
   
 export class Topic implements ITopic {
   id: string;
+  originalId: string;
   name: string;
   content: string;
   createdAt: Date;
@@ -23,6 +26,7 @@ export class Topic implements ITopic {
 
   constructor(params: ITopic) {
     this.id = params.id;
+    this.originalId = params.originalId;
     this.name = params.name;
     this.content = params.content;
     this.createdAt = params.createdAt;

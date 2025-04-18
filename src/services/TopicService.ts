@@ -51,7 +51,7 @@ export class TopicService {
     return readData().find(t => t.id === id);
   }
 
-  static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version'>): ITopic {
+  static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'originalId'>): ITopic {
     const topics = readData();
   
     // Validation of parent topic if provided
@@ -59,12 +59,38 @@ export class TopicService {
       throw new Error('Parent topic not found');
     }
   
+    const newId = uuidv4();
+    const now = new Date();
     const newTopic: ITopic = {
       ...data,
-      id: uuidv4(),
+      id: newId,
+      originalId: newId,
       version: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: now,
+      updatedAt: now
+    };
+  
+    topics.push(newTopic);
+    writeData(topics);
+    return newTopic;
+  }
+
+  static update(id: string, data: Partial<Omit<ITopic, 'id' | 'version' | 'createdAt' | 'updatedAt' | 'originalId'>>): ITopic | null {
+    const topics = readData();
+    const current = topics.find(t => t.id === id);
+    if (!current) return null;
+  
+    const versions = topics.filter(t => t.originalId === current.originalId);
+    const latestVersion = Math.max(...versions.map(t => t.version));
+  
+    const newTopic: ITopic = {
+      ...current,
+      ...data,
+      id: uuidv4(),
+      version: latestVersion + 1,
+      originalId: current.originalId,
+      createdAt: current.createdAt,
+      updatedAt: new Date(),
     };
   
     topics.push(newTopic);
