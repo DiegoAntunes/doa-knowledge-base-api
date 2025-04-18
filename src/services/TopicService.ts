@@ -89,6 +89,58 @@ export class TopicService {
     return buildTree(root);
   }
   
+  static getShortestPath(fromId: string, toId: string): ITopic[] | null {
+    const topics = readData();
+  
+    // Maps all topics by ID for quick access
+    const topicMap = new Map<string, ITopic>();
+    topics.forEach(topic => topicMap.set(topic.id, topic));
+  
+    // Checks if both topics exist
+    const fromTopic = topicMap.get(fromId);
+    const toTopic = topicMap.get(toId);
+    if (!fromTopic || !toTopic) return null;
+  
+    // Assemble the neighborhood structure (undirected graph: parent <-> child)
+    const graph = new Map<string, string[]>();
+    topics.forEach(topic => {
+      if (!graph.has(topic.id)) graph.set(topic.id, []);
+      if (topic.parentTopicId) {
+        // Bidirectional connection: parent -> child and child -> parent
+        graph.get(topic.id)!.push(topic.parentTopicId);
+        if (!graph.has(topic.parentTopicId)) graph.set(topic.parentTopicId, []);
+        graph.get(topic.parentTopicId)!.push(topic.id);
+      }
+    });
+  
+    // BFS (Breadth-First Search) algorithm for finding the shortest path
+    const queue: string[][] = [[fromId]]; // Path queue (sequence of IDs)
+    const visited = new Set<string>();
+  
+    while (queue.length > 0) {
+      const path = queue.shift()!;
+      const current = path[path.length - 1];
+  
+      if (current === toId) {
+        // Path found → returns matching topics
+        return path.map(id => topicMap.get(id)!);
+      }
+  
+      if (!visited.has(current)) {
+        visited.add(current);
+        const neighbors = graph.get(current) || [];
+        for (const neighbor of neighbors) {
+          if (!visited.has(neighbor)) {
+            queue.push([...path, neighbor]);
+          }
+        }
+      }
+    }
+  
+    // Didn't find a way
+    return null;
+  }
+
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'originalId'>): ITopic {
     const topics = readData();
   

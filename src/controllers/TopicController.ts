@@ -54,6 +54,20 @@ export class TopicController {
     if (!tree) return res.status(404).json({ error: 'Topic not found' });
     res.json(tree);
   }
+
+  static getShortestPath(req: Request, res: Response) {
+    const { from, to } = req.query;
+    if (!from || !to || typeof from !== 'string' || typeof to !== 'string') {
+      return res.status(400).json({ error: '"from" and "to" parameters are mandatory and must be strings.' });
+    }
+  
+    const path = TopicService.getShortestPath(from, to);
+    if (!path) {
+      return res.status(404).json({ error: 'Unable to find a path between topics.' });
+    }
+  
+    res.json({ path });
+  }
   
   static create(req: Request, res: Response) {
     const role = (req.headers['x-user-role'] as string) || 'Viewer';
