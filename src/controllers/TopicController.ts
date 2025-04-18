@@ -13,6 +13,12 @@ export class TopicController {
     res.json(topic);
   }
 
+  static getChildren(req: Request, res: Response) {
+    const { id } = req.params;
+    const children = TopicService.getChildren(id);
+    res.json(children);
+  }
+  
   static create(req: Request, res: Response) {
     const { name, content, parentTopicId } = req.body;
     if (!name || !content) {

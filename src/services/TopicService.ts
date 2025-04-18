@@ -26,6 +26,10 @@ export class TopicService {
     return readData().find(t => t.id === id);
   }
 
+  static getChildren(parentTopicId: string): ITopic[] {
+    return readData().filter(t => t.parentTopicId === parentTopicId);
+  }
+
   static create(data: Omit<ITopic, 'id' | 'createdAt' | 'updatedAt' | 'version'>): ITopic {
     const topics = readData();
   
