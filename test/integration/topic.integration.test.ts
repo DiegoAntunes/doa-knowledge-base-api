@@ -43,3 +43,38 @@ describe('Integration: Topics', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('Integration: Topics', () => {
+  it('should create a new version when updating a topic', async () => {
+    // 1. Create the original topic
+    const createRes = await request(app)
+      .post('/topics')
+      .set('x-user-role', 'Editor')
+      .send({
+        name: 'Version 1',
+        content: 'Original content'
+      });
+
+    expect(createRes.status).toBe(201);
+    const original = createRes.body;
+
+    // 2. Update the topic (which creates a new version)
+    const updateRes = await request(app)
+      .put(`/topics/${original.id}`)
+      .set('x-user-role', 'Editor')
+      .send({
+        name: 'Version 2',
+        content: 'Updated content'
+      });
+
+    expect(updateRes.status).toBe(200);
+    const updated = updateRes.body;
+
+    // 3. Assertions on versioning
+    expect(updated.id).not.toBe(original.id); // new ID
+    expect(updated.originalId).toBe(original.originalId); // same root
+    expect(updated.version).toBe(original.version + 1); // incremented
+    expect(updated.name).toBe('Version 2');
+    expect(updated.content).toBe('Updated content');
+  });
+});
