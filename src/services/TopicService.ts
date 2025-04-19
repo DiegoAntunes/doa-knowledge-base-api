@@ -5,8 +5,9 @@ import { ITopic } from '../models/Topic';
 import { TopicComposite } from '../composite/TopicComposite';
 import { TopicVersionFactory } from '../factories/TopicVersionFactory';
 
-const dbPath = path.resolve(__dirname, '../database/topic.json');
-//const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
+//const dbPath = path.resolve(__dirname, '../database/topic.json');
+const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
+
 const factory = new TopicVersionFactory();
 
 function readData(): ITopic[] {

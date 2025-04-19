@@ -3,7 +3,8 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { IUser, User, UserRole } from '../models/User';
 
-const dbPath = path.resolve(__dirname, '../database/user.json');
+//const dbPath = path.resolve(__dirname, '../database/user.json');
+const dbPath = path.join(__dirname, '../../test/database/user.test.json');
 
 function readData(): IUser[] {
   if (!fs.existsSync(dbPath)) {

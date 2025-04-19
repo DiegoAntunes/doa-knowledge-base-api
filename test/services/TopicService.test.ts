@@ -5,7 +5,7 @@ import { TopicService } from '../../src/services/TopicService';
 const mockFilePath = path.join(__dirname, '../../test/database/topic.test.json');
 
 beforeEach(() => {
-  fs.writeFileSync(mockFilePath, JSON.stringify([])); // limpa o arquivo antes de cada teste
+  fs.writeFileSync(mockFilePath, JSON.stringify([])); // clean the file before each test
 });
 
 describe('TopicService', () => {
