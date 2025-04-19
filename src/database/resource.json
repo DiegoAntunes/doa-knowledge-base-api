@@ -1,0 +1,11 @@
+[
+  {
+    "id": "e2cc76ff-ff20-47e7-80c6-2891764d58f8",
+    "createdAt": "2025-04-19T12:29:24.739Z",
+    "updatedAt": "2025-04-19T12:29:51.064Z",
+    "topicId": "da9ebf20-ff56-4284-b2be-68ba63f1632e",
+    "url": "http://www.youtube.com",
+    "description": "Video from youtube",
+    "type": "video"
+  }
+]
