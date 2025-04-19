@@ -3,18 +3,18 @@ import { TopicController } from '../controllers/TopicController';
 
 const router = Router();
 
-router.get('/', TopicController.getAll.bind(TopicController));
-router.get('/hierarchy', TopicController.getHierarchy.bind(TopicController));
-router.get('/path', TopicController.getShortestPath.bind(TopicController));
+router.get('/', TopicController.getAll);
+router.get('/hierarchy', TopicController.getHierarchy);
+router.get('/path', TopicController.getShortestPath);
 
-router.get('/:id/versions/:versionNumber', TopicController.getSpecificVersion.bind(TopicController));
-router.get('/:id/tree', TopicController.getTree.bind(TopicController));
-router.get('/:id/versions', TopicController.getVersions.bind(TopicController));
-router.get('/:id/children', TopicController.getChildren.bind(TopicController));
-router.get('/:id', TopicController.getById.bind(TopicController));
+router.get('/:id/versions/:versionNumber', TopicController.getSpecificVersion);
+router.get('/:id/tree', TopicController.getTree);
+router.get('/:id/versions', TopicController.getVersions);
+router.get('/:id/children', TopicController.getChildren);
+router.get('/:id', TopicController.getById);
 
-router.post('/', TopicController.create.bind(TopicController));
-router.put('/:id', TopicController.update.bind(TopicController));
-router.delete('/:id', TopicController.delete.bind(TopicController));
+router.post('/', TopicController.create);
+router.put('/:id', TopicController.update);
+router.delete('/:id', TopicController.delete);
 
 export default router;
