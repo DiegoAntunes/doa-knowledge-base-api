@@ -11,7 +11,11 @@ function readData(): ITopic[] {
     fs.writeFileSync(dbPath, '[]');
   }
   const data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(data);
+  return JSON.parse(data).map((topic: any) => ({
+    ...topic,
+    createdAt: new Date(topic.createdAt),
+    updatedAt: new Date(topic.updatedAt)
+  }));
 }
 
 function writeData(data: ITopic[]) {
