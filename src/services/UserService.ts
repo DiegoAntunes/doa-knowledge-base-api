@@ -11,7 +11,10 @@ function readData(): IUser[] {
     fs.writeFileSync(dbPath, '[]', 'utf-8');
   }
   const data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(data);
+  return JSON.parse(data).map((user: any) => ({
+    ...user,
+    createdAt: new Date(user.createdAt)
+  }));
 }
 
 function writeData(data: IUser[]) {
