@@ -2,10 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { TopicService } from '../../src/services/TopicService';
 
-const mockFilePath = path.join(__dirname, '../../test/database/topic.test.json');
+const filePath = path.join(__dirname, '../../test/database/topic.test.json');
 
 beforeEach(() => {
-  fs.writeFileSync(mockFilePath, JSON.stringify([])); // clean the file before each test
+  fs.writeFileSync(filePath, JSON.stringify([])); // clean the file before each test
 });
 
 describe('TopicService', () => {

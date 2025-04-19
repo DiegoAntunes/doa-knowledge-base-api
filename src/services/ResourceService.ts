@@ -3,16 +3,22 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Resource } from '../models/Resource';
 
-const filePath = path.join(__dirname, '../database/resource.json');
+//const dbPath = path.join(__dirname, '../database/resource.json');
+const dbPath = path.join(__dirname, '../../test/database/resource.test.json');
+
 
 function readData(): Resource[] {
-  if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, JSON.stringify([]));
-  const rawData = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(rawData);
+  if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, JSON.stringify([]));
+  const rawData = fs.readFileSync(dbPath, 'utf-8');
+  return JSON.parse(rawData).map((resource: any) => ({
+    ...resource,
+    createdAt: new Date(resource.createdAt),
+    updatedAt: new Date(resource.updatedAt)
+  }));
 }
 
 function writeData(data: Resource[]) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 }
 
 export const ResourceService = {
