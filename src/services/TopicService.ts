@@ -2,9 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { ITopic } from '../models/Topic';
+import { TopicComposite } from '../composite/TopicComposite';
 
-//const dbPath = path.resolve(__dirname, '../database/topic.json');
-const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
+const dbPath = path.resolve(__dirname, '../database/topic.json');
+//const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
 
 function readData(): ITopic[] {
   if (!fs.existsSync(dbPath)) {
@@ -92,6 +93,29 @@ export class TopicService {
     }
   
     return buildTree(root);
+  }
+
+  static getTreeComposite(id: string): any | null {
+    const topics = readData();
+    const rootTopic = topics.find(t => t.id === id);
+    if (!rootTopic) return null;
+  
+    const topicMap = new Map<string, TopicComposite>();
+    topics.forEach(t => topicMap.set(t.id, new TopicComposite(t)));
+  
+    // Relates the children
+    topics.forEach(t => {
+      if (t.parentTopicId) {
+        const parent = topicMap.get(t.parentTopicId);
+        const child = topicMap.get(t.id);
+        if (parent && child) {
+          parent.addChild(child);
+        }
+      }
+    });
+  
+    const root = topicMap.get(id);
+    return root?.toJSON();
   }
   
   static getShortestPath(fromId: string, toId: string): ITopic[] | null {
@@ -193,7 +217,6 @@ export class TopicService {
     return newTopic;
   }
   
-
   static delete(id: string): boolean {
     const topics = readData();
     const index = topics.findIndex(t => t.id === id);

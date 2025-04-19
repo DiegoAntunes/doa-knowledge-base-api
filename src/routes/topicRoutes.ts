@@ -8,8 +8,9 @@ router.get('/hierarchy', TopicController.getHierarchy);
 router.get('/path', TopicController.getShortestPath);
 
 router.get('/:id/versions/:versionNumber', TopicController.getSpecificVersion);
-router.get('/:id/tree', TopicController.getTree);
 router.get('/:id/versions', TopicController.getVersions);
+router.get('/:id/tree-composite', TopicController.getTreeComposite);
+router.get('/:id/tree', TopicController.getTree);
 router.get('/:id/children', TopicController.getChildren);
 router.get('/:id', TopicController.getById);
 

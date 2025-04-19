@@ -55,6 +55,12 @@ export class TopicController {
     res.json(tree);
   }
 
+  static getTreeComposite(req: Request, res: Response) {
+    const tree = TopicService.getTreeComposite(req.params.id);
+    if (!tree) return res.status(404).json({ error: 'Topic not found' });
+    res.json(tree);
+  }
+
   static getShortestPath(req: Request, res: Response) {
     const { from, to } = req.query;
     if (!from || !to || typeof from !== 'string' || typeof to !== 'string') {
