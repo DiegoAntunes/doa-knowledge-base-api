@@ -3,7 +3,8 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { ITopic } from '../models/Topic';
 
-const dbPath = path.resolve(__dirname, '../database/topic.json');
+//const dbPath = path.resolve(__dirname, '../database/topic.json');
+const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
 
 function readData(): ITopic[] {
   if (!fs.existsSync(dbPath)) {
