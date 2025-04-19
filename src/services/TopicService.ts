@@ -3,9 +3,11 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { ITopic } from '../models/Topic';
 import { TopicComposite } from '../composite/TopicComposite';
+import { TopicVersionFactory } from '../factories/TopicVersionFactory';
 
 const dbPath = path.resolve(__dirname, '../database/topic.json');
 //const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
+const factory = new TopicVersionFactory();
 
 function readData(): ITopic[] {
   if (!fs.existsSync(dbPath)) {
@@ -178,17 +180,8 @@ export class TopicService {
       throw new Error('Parent topic not found');
     }
   
-    const newId = uuidv4();
-    const now = new Date();
-    const newTopic: ITopic = {
-      ...data,
-      id: newId,
-      originalId: newId,
-      version: 1,
-      createdAt: now,
-      updatedAt: now
-    };
-  
+    const newTopic = factory.createInitial(data);
+
     topics.push(newTopic);
     writeData(topics);
     return newTopic;
@@ -202,16 +195,8 @@ export class TopicService {
     const versions = topics.filter(t => t.originalId === current.originalId);
     const latestVersion = Math.max(...versions.map(t => t.version));
   
-    const newTopic: ITopic = {
-      ...current,
-      ...data,
-      id: uuidv4(),
-      version: latestVersion + 1,
-      originalId: current.originalId,
-      createdAt: current.createdAt,
-      updatedAt: new Date(),
-    };
-  
+    const newTopic = factory.createVersion(current, data, latestVersion);
+
     topics.push(newTopic);
     writeData(topics);
     return newTopic;
