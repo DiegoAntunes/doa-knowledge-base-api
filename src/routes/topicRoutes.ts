@@ -5,10 +5,10 @@ const router = Router();
 
 router.get('/', TopicController.getAll.bind(TopicController));
 router.get('/hierarchy', TopicController.getHierarchy.bind(TopicController));
-router.get('/path', TopicController.getShortestPath);
+router.get('/path', TopicController.getShortestPath.bind(TopicController));
 
 router.get('/:id/versions/:versionNumber', TopicController.getSpecificVersion.bind(TopicController));
-router.get('/:id/tree', TopicController.getTree);
+router.get('/:id/tree', TopicController.getTree.bind(TopicController));
 router.get('/:id/versions', TopicController.getVersions.bind(TopicController));
 router.get('/:id/children', TopicController.getChildren.bind(TopicController));
 router.get('/:id', TopicController.getById.bind(TopicController));
