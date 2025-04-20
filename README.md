@@ -1,116 +1,202 @@
-# Dynamic Knowledge Base API
+# 🧠 Dynamic Knowledge Base API
 
-A RESTful API built with Node.js and TypeScript to manage a dynamic knowledge base system. This API handles versioned topics, hierarchical relationships, associated resources, and role-based permissions.
+A RESTful API built with Node.js and TypeScript to manage a **Dynamic Knowledge Base System**. It supports:
+
+- Versioned topics with history  
+- Hierarchical topic trees  
+- Resources linked to topics  
+- Role-based permissions (Admin, Editor, Viewer)  
+- Custom algorithms and design patterns (Factory, Strategy, Composite)
 
 ---
 
 ## Tech Stack
 
-- Node.js
-- TypeScript
-- Express
-- Jest + Supertest (unit & integration testing)
-- File-based JSON storage
-- Design Patterns: Strategy, Factory, Composite
+- **Node.js** + **TypeScript**  
+- **Express** (web framework)  
+- **Jest** + **Supertest** (testing)  
+- **JSON file storage** (simple persistence)  
+- **Design Patterns**: Strategy, Factory, Composite  
+- **OOP Principles** and SOLID code organization
 
 ---
 
 ## Getting Started
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/knowledge-base-api.git
-cd knowledge-base-api
+git clone https://github.com/DiegoAntunes/doa-knowledge-base-api.git
+cd doa-knowledge-base-api
 ```
 
-### 2. Install dependencies
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Run the server in development mode
+### 3. Start the Server (Development Mode)
 
 ```bash
 npm run dev
 ```
 
-### 4. Run tests
+Server will run at: `http://localhost:3000`
+
+### 4. Run Tests
 
 ```bash
-# Unit + Integration
+# All tests (unit + integration)
 npm test
 
-# Only integration
+# Run integration tests sequentially
 npm run test:integration
 ```
 
-> Make sure the `test/database/*.json` files exist as empty arrays: `[]`
+> Ensure `test/database/*.json` files exist and are initialized as empty arrays (`[]`).
 
 ---
 
-## User Roles and Permissions
+## User Roles & Permissions
 
-Permissions are determined by the `x-user-role` HTTP header. Available roles:
-
-- `Admin`: full access
-- `Editor`: can create and update topics, cannot delete
-- `Viewer`: read-only access
-
-Example:
+Permissions are enforced using a **Strategy Pattern** and injected via headers:
 
 ```http
-GET /topics
-x-user-role: Editor
+x-user-id: <user_id>
 ```
+
+### Roles
+
+| Role   | Permissions                                 |
+|--------|---------------------------------------------|
+| Admin  | Full access to all features                 |
+| Editor | Can create/update topics and resources      |
+| Viewer | Read-only access                            |
+
+> Simulated auth middleware uses the `x-user-id` to resolve the user.
 
 ---
 
 ## API Endpoints
 
-### Topics
-- `GET /topics`: list all topics
-- `POST /topics`: create new topic
-- `PUT /topics/:id`: update (creates new version)
-- `DELETE /topics/:id`
-- `GET /topics/:id`: get topic by ID
-- `GET /topics/:id/versions`: list all versions
-- `GET /topics/:id/versions/:versionNumber`: get specific version
-- `GET /topics/:id/tree`: recursive hierarchy
-- `GET /topics/path?from=A&to=B`: shortest path between topics
+### 🔹 Topics
 
-### Users
-- `GET /users`
-- `POST /users`
-- `GET /users/:id`
-- `DELETE /users/:id`
+| Method | Endpoint                                 | Description                          |
+|--------|------------------------------------------|--------------------------------------|
+| GET    | `/topics`                                | List all topics                      |
+| POST   | `/topics`                                | Create a new topic                   |
+| PUT    | `/topics/:id`                            | Update a topic (creates new version) |
+| DELETE | `/topics/:id`                            | Delete a topic                       |
+| GET    | `/topics/:id`                            | Get topic by ID                      |
+| GET    | `/topics/:id/versions`                   | List all versions of a topic         |
+| GET    | `/topics/:id/versions/:versionNumber`    | Get a specific version               |
+| GET    | `/topics/:id/tree`                       | Recursively retrieve subtopics       |
+| GET    | `/topics/path?from=A&to=B`               | Shortest path between two topics     |
 
-### Resources
-- `GET /resources`
-- `POST /resources`
-- `GET /resources/:id`
-- `GET /resources/topic/:topicId`
-- `DELETE /resources/:id`
+### 🔹 Resources
+
+| Method | Endpoint                          | Description                      |
+|--------|-----------------------------------|----------------------------------|
+| GET    | `/resources`                      | List all resources               |
+| POST   | `/resources`                      | Create a new resource            |
+| GET    | `/resources/:id`                  | Get resource by ID               |
+| GET    | `/resources/topic/:topicId`       | Get resources by topic ID        |
+| DELETE | `/resources/:id`                  | Delete resource                  |
+
+### 🔹 Users
+
+| Method | Endpoint          | Description                |
+|--------|-------------------|----------------------------|
+| GET    | `/users`          | List all users (Admin only)|
+| POST   | `/users`          | Create a new user          |
+| GET    | `/users/:id`      | Get user by ID             |
+| DELETE | `/users/:id`      | Delete user (Admin only)   |
 
 ---
 
 ## Testing
 
-- All services are covered by unit tests
-- Core business flows are covered by integration tests
-- Tests use isolated `.test.json` files for data
+- ✅ **Unit tests** for all services  
+- ✅ **Integration tests** covering end-to-end flows  
+- ✅ **Mocked controller tests** for isolated behavior  
+- ✅ Custom **test database files** to ensure isolation
 
-Run tests:
+Run:
 
 ```bash
 npm test
 ```
 
+> Integration tests are run with `--runInBand` to avoid concurrency issues with JSON files.
+
 ---
 
-## Design Patterns
+## 🎯 Design Patterns Used
 
-- **Strategy**: permission rules per role
-- **Factory**: creation of versioned topics
-- **Composite**: tree structure for topics with children
+| Pattern    | Purpose                                   |
+|------------|-------------------------------------------|
+| **Factory**  | Topic versioning creation logic           |
+| **Strategy** | Role-based permissions and authorization |
+| **Composite**| Topic hierarchy with tree recursion      |
+
+---
+
+## Project Structure
+
+```
+src/
+├── @types/
+├── composite/
+├── controllers/
+├── database/
+├── factories/
+├── middlewares/
+├── models/
+├── permissions/
+├── routes/
+├── services/
+test/
+├── controllers/
+├── database/  <- test JSON files
+├── integration/
+├── permissions/
+├── services/
+└── utils/
+```
+
+---
+
+## ✅ Requirements Coverage
+
+- [x] CRUD for Topics with Version Control
+- [x] Recursive Hierarchical Retrieval
+- [x] Shortest Path Algorithm (custom BFS)
+- [x] Resource management
+- [x] Role-based permissions using Strategy Pattern
+- [x] OOP: Interfaces, abstract classes, design patterns
+- [x] File-based persistence
+- [x] Custom error handling middleware
+- [x] Unit & integration tests with mocks
+
+---
+
+## 📌 Submission Notes
+
+This project was built to fulfill a technical challenge with focus on:
+
+- Clean code and separation of concerns  
+- Realistic simulation of complex domain logic  
+- High test coverage and modularity  
+
+To run locally, clone, install dependencies, and execute via:
+
+```bash
+npm run dev
+```
+
+> For test environments, run with:
+
+```bash
+npm test
+```
