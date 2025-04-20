@@ -89,9 +89,11 @@ x-user-id: <user_id>
 | PUT    | `/topics/:id`                            | Update a topic (creates new version) |
 | DELETE | `/topics/:id`                            | Delete a topic                       |
 | GET    | `/topics/:id`                            | Get topic by ID                      |
+| GET    | `/topics/:id/children`                   | Get direct children of a topic       |
 | GET    | `/topics/:id/versions`                   | List all versions of a topic         |
 | GET    | `/topics/:id/versions/:versionNumber`    | Get a specific version               |
 | GET    | `/topics/:id/tree`                       | Recursively retrieve subtopics       |
+| GET    | `/topics/:id/composite`                  | Retrieve topic tree using Composite  |
 | GET    | `/topics/path?from=A&to=B`               | Shortest path between two topics     |
 
 ### 🔹 Resources
@@ -100,18 +102,20 @@ x-user-id: <user_id>
 |--------|-----------------------------------|----------------------------------|
 | GET    | `/resources`                      | List all resources               |
 | POST   | `/resources`                      | Create a new resource            |
+| PUT    | `/resources/:id`                  | Update a resource                |
 | GET    | `/resources/:id`                  | Get resource by ID               |
 | GET    | `/resources/topic/:topicId`       | Get resources by topic ID        |
 | DELETE | `/resources/:id`                  | Delete resource                  |
 
 ### 🔹 Users
 
-| Method | Endpoint          | Description                |
-|--------|-------------------|----------------------------|
-| GET    | `/users`          | List all users (Admin only)|
-| POST   | `/users`          | Create a new user          |
-| GET    | `/users/:id`      | Get user by ID             |
-| DELETE | `/users/:id`      | Delete user (Admin only)   |
+| Method | Endpoint          | Description                          |
+|--------|-------------------|--------------------------------------|
+| GET    | `/users`          | List all users (Admin only)          |
+| POST   | `/users`          | Create a new user                    |
+| GET    | `/users/:id`      | Get user by ID (self or Admin only) |
+| PUT    | `/users/:id`      | Update user (Editor/Admin only)     |
+| DELETE | `/users/:id`      | Delete user (Admin only)            |
 
 ---
 
