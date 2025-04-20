@@ -104,4 +104,40 @@ describe('UserController (with mocked UserService)', () => {
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.send).toHaveBeenCalled();
   });
+
+  it('should return 403 if Viewer tries to get all users', () => {
+    const viewerUser = { ...mockUser, role: 'Viewer' };
+  
+    const req = {
+      user: viewerUser
+    } as unknown as Request;
+  
+    UserController.getAll(req, res);
+  
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Only Admin can view all users' });
+  });
+  
+  it('should return 403 if Editor tries to delete a user', () => {
+    const editorUser = { ...mockUser, role: 'Editor' };
+  
+    const req = {
+      user: editorUser,
+      params: { id: '1' }
+    } as unknown as Request;
+  
+    UserController.delete(req, res);
+  
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Only Admin can delete users' });
+  });
+
+  it('should return 401 if no user is authenticated on getAll', () => {
+    const req = {} as Request;
+  
+    UserController.getAll(req, res);
+  
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({ error: 'User not authenticated' });
+  });
 });
