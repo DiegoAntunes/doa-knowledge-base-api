@@ -84,38 +84,41 @@ x-user-id: <user_id>
 
 | Method | Endpoint                                 | Description                          |
 |--------|------------------------------------------|--------------------------------------|
-| GET    | `/topics`                                | List all topics                      |
 | POST   | `/topics`                                | Create a new topic                   |
 | PUT    | `/topics/:id`                            | Update a topic (creates new version) |
 | DELETE | `/topics/:id`                            | Delete a topic                       |
+| GET    | `/topics`                                | List all topics                      |
 | GET    | `/topics/:id`                            | Get topic by ID                      |
 | GET    | `/topics/:id/children`                   | Get direct children of a topic       |
+| GET    | `/topics/hierarchy`                      | Get full topic tree hierarchy        |
 | GET    | `/topics/:id/versions`                   | List all versions of a topic         |
 | GET    | `/topics/:id/versions/:versionNumber`    | Get a specific version               |
 | GET    | `/topics/:id/tree`                       | Recursively retrieve subtopics       |
-| GET    | `/topics/:id/composite`                  | Retrieve topic tree using Composite  |
+| GET    | `/topics/:id/tree-composite`             | Retrieve topic tree using Composite  |
 | GET    | `/topics/path?from=A&to=B`               | Shortest path between two topics     |
 
 ### 🔹 Resources
 
 | Method | Endpoint                          | Description                      |
 |--------|-----------------------------------|----------------------------------|
-| GET    | `/resources`                      | List all resources               |
 | POST   | `/resources`                      | Create a new resource            |
 | PUT    | `/resources/:id`                  | Update a resource                |
+| DELETE | `/resources/:id`                  | Delete resource                  |
+| GET    | `/resources`                      | List all resources               |
 | GET    | `/resources/:id`                  | Get resource by ID               |
 | GET    | `/resources/topic/:topicId`       | Get resources by topic ID        |
-| DELETE | `/resources/:id`                  | Delete resource                  |
+
 
 ### 🔹 Users
 
 | Method | Endpoint          | Description                          |
 |--------|-------------------|--------------------------------------|
-| GET    | `/users`          | List all users (Admin only)          |
 | POST   | `/users`          | Create a new user                    |
-| GET    | `/users/:id`      | Get user by ID (self or Admin only) |
-| PUT    | `/users/:id`      | Update user (Editor/Admin only)     |
-| DELETE | `/users/:id`      | Delete user (Admin only)            |
+| PUT    | `/users/:id`      | Update user (Editor/Admin only)      |
+| DELETE | `/users/:id`      | Delete user (Admin only)             |
+| GET    | `/users`          | List all users (Admin only)          |
+| GET    | `/users/:id`      | Get user by ID (self or Admin only)  |
+
 
 ---
 
