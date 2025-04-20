@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
-    "test": "jest",
-    "test:integration": "jest test/integration",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
+    "test:integration": "jest test/integration --runInBand",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -19,6 +19,7 @@
     "@types/node": "^22.14.1",
     "@types/supertest": "^6.0.3",
     "@types/uuid": "^10.0.0",
+    "cross-env": "^7.0.3",
     "jest": "^29.7.0",
     "supertest": "^7.1.0",
     "ts-jest": "^29.3.2",

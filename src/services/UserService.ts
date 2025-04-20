@@ -3,19 +3,26 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { IUser, User, UserRole } from '../models/User';
 
-//const dbPath = path.resolve(__dirname, '../database/user.json');
-const dbPath = path.join(__dirname, '../../test/database/user.test.json');
+const dbPath = process.env.NODE_ENV === 'test'
+  ? path.join(__dirname, '../../test/database/user.test.json')
+  : path.join(__dirname, '../database/user.json');
 
-function readData(): IUser[] {
-  if (!fs.existsSync(dbPath)) {
-    fs.writeFileSync(dbPath, '[]', 'utf-8');
+  function readData(): IUser[] {
+    if (!fs.existsSync(dbPath)) {
+      fs.writeFileSync(dbPath, '[]', 'utf-8');
+    }
+    const raw = fs.readFileSync(dbPath, 'utf-8').trim();
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw).map((user: any) => ({
+        ...user,
+        createdAt: new Date(user.createdAt),
+      }));
+    } catch (err) {
+      console.error('[UserService] Failed to parse user data:', err);
+      return [];
+    }
   }
-  const data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(data).map((user: any) => ({
-    ...user,
-    createdAt: new Date(user.createdAt)
-  }));
-}
 
 function writeData(data: IUser[]) {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf-8');

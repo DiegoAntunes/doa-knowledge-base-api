@@ -5,21 +5,28 @@ import { ITopic } from '../models/Topic';
 import { TopicComposite } from '../composite/TopicComposite';
 import { TopicVersionFactory } from '../factories/TopicVersionFactory';
 
-//const dbPath = path.resolve(__dirname, '../database/topic.json');
-const dbPath = path.resolve(__dirname, '../../test/database/topic.test.json');
+const dbPath = process.env.NODE_ENV === 'test'
+  ? path.resolve(__dirname, '../../test/database/topic.test.json')
+  : path.resolve(__dirname, '../database/topic.json');
 
 const factory = new TopicVersionFactory();
 
 function readData(): ITopic[] {
   if (!fs.existsSync(dbPath)) {
-    fs.writeFileSync(dbPath, '[]');
+    fs.writeFileSync(dbPath, '[]', 'utf-8');
   }
-  const data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(data).map((topic: any) => ({
-    ...topic,
-    createdAt: new Date(topic.createdAt),
-    updatedAt: new Date(topic.updatedAt)
-  }));
+  const raw = fs.readFileSync(dbPath, 'utf-8').trim();
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw).map((topic: any) => ({
+      ...topic,
+      createdAt: new Date(topic.createdAt),
+      updatedAt: new Date(topic.updatedAt),
+    }));
+  } catch (err) {
+    console.error('[TopicService] Failed to parse topic data:', err);
+    return [];
+  }
 }
 
 function writeData(data: ITopic[]) {

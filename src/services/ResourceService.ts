@@ -3,22 +3,28 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Resource } from '../models/Resource';
 
-//const dbPath = path.join(__dirname, '../database/resource.json');
-const dbPath = path.join(__dirname, '../../test/database/resource.test.json');
+const dbPath = process.env.NODE_ENV === 'test'
+  ? path.join(__dirname, '../../test/database/resource.test.json')
+  : path.join(__dirname, '../database/resource.json');
 
-
-function readData(): Resource[] {
-  if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, JSON.stringify([]));
-  const rawData = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(rawData).map((resource: any) => ({
-    ...resource,
-    createdAt: new Date(resource.createdAt),
-    updatedAt: new Date(resource.updatedAt)
-  }));
-}
+  function readData(): Resource[] {
+    if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]', 'utf-8');
+    const raw = fs.readFileSync(dbPath, 'utf-8').trim();
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw).map((resource: any) => ({
+        ...resource,
+        createdAt: new Date(resource.createdAt),
+        updatedAt: new Date(resource.updatedAt),
+      }));
+    } catch (err) {
+      console.error('[ResourceService] Failed to parse resource data:', err);
+      return [];
+    }
+  }
 
 function writeData(data: Resource[]) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 export const ResourceService = {
