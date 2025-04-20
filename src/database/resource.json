@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": "0ebe70cf-c5d3-42b8-b29e-8ff9ca794262",
+    "createdAt": "2025-04-20T18:27:50.710Z",
+    "updatedAt": "2025-04-20T18:27:50.710Z",
+    "topicId": "d0d6aa46-79b5-45c1-8677-47a1078b3db0",
+    "url": "http://www.resourcevideo.com",
+    "description": "Resource video",
+    "type": "video"
+  },
+  {
+    "id": "779c7ce8-699b-4d74-9937-3f4ae96ad512",
+    "createdAt": "2025-04-20T18:28:42.962Z",
+    "updatedAt": "2025-04-20T18:28:42.962Z",
+    "topicId": "d39928c1-5228-4f6a-9acf-6edd3ce32c20",
+    "url": "http://www.resourcearticle.com",
+    "description": "Resource article",
+    "type": "article"
+  },
+  {
+    "id": "6084c55c-660a-4abd-a4f2-d6b83a62eb5f",
+    "createdAt": "2025-04-20T18:29:14.644Z",
+    "updatedAt": "2025-04-20T18:29:14.644Z",
+    "topicId": "60e727c4-c6db-4cc3-a5df-13f32074a084",
+    "url": "http://www.resourcepdf.com",
+    "description": "Resource pdf",
+    "type": "pdf"
+  },
+  {
+    "id": "fe5178a7-1f0a-4553-8407-5d62855a8b41",
+    "createdAt": "2025-04-20T18:31:00.951Z",
+    "updatedAt": "2025-04-20T18:33:24.696Z",
+    "topicId": "d0d6aa46-79b5-45c1-8677-47a1078b3db0",
+    "url": "http://www.resourcetoupdate.com",
+    "description": "Resource to update",
+    "type": "pdf"
+  },
+  {
+    "id": "2e7ac3c8-71ba-4fb2-a6a6-562938829651",
+    "createdAt": "2025-04-20T18:31:11.262Z",
+    "updatedAt": "2025-04-20T18:31:11.262Z",
+    "topicId": "d0d6aa46-79b5-45c1-8677-47a1078b3db0",
+    "url": "http://www.resourcetodelete.com",
+    "description": "Resource to delete",
+    "type": "pdf"
+  }
+]
