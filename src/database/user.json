@@ -1,21 +1,21 @@
 [
   {
-    "name": "User 01 Admin",
-    "email": "user01admin@kbapi.com",
+    "name": "Admin",
+    "email": "admin@test.com",
     "role": "Admin",
     "id": "9aead219-db13-4cca-b830-469be0f64b56",
     "createdAt": "2025-04-18T20:56:53.460Z"
   },
   {
-    "name": "User 02 Editor",
-    "email": "user02editor@kbapi.com",
+    "name": " Editor",
+    "email": "editor@test.com",
     "role": "Editor",
     "id": "12007372-5029-4281-8282-8fb3735a425d",
     "createdAt": "2025-04-18T20:59:57.629Z"
   },
   {
-    "name": "User 03 Viewer",
-    "email": "user03viewer@kbapi.com",
+    "name": "Viewer",
+    "email": "viewer@kbapi.com",
     "role": "Viewer",
     "id": "01689a85-f189-45b2-9d97-e78d8c990efe",
     "createdAt": "2025-04-18T21:00:20.865Z"

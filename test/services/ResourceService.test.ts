@@ -11,14 +11,14 @@ beforeEach(() => {
 describe('ResourceService', () => {
   it('should create a resource', () => {
     const resource = ResourceService.create({
-      topicId: 'resorce-create',
+      topicId: 'resource-create',
       url: 'http://www.youtube.com',
       description: 'Video from youtube',
       type: 'video',
     });
 
     expect(resource).toHaveProperty('id');
-    expect(resource.topicId).toBe('resorce-create');
+    expect(resource.topicId).toBe('resource-create');
     expect(resource.url).toBe('http://www.youtube.com');
     expect(resource.description).toBe('Video from youtube');
     expect(resource.type).toBe('video');
@@ -26,7 +26,7 @@ describe('ResourceService', () => {
 
   it('should retrieve resource by ID', () => {
     const created = ResourceService.create({
-        topicId: 'resorce-getbyid',
+        topicId: 'resource-getbyid',
         url: 'http://www.articleweb.com/artweb',
         description: 'Article from web',
         type: 'article',
@@ -38,26 +38,26 @@ describe('ResourceService', () => {
 
   it('should return resources by topicId', () => {
     ResourceService.create({
-      topicId: 'resorce-getbytopicid',
+      topicId: 'resource-getbytopicid',
       url: 'http://www.pdfweb.com/pdfweb',
       description: 'PDF from web',
       type: 'pdf',
     });
 
     ResourceService.create({
-      topicId: 'resorce-getbytopicid',
+      topicId: 'resource-getbytopicid',
       url: 'http://www.pdfweb.com/pdfweb2',
       description: 'PDF from web 2',
       type: 'pdf',
     });
 
-    const resources = ResourceService.getByTopicId('resorce-getbytopicid');
+    const resources = ResourceService.getByTopicId('resource-getbytopicid');
     expect(resources.length).toBe(2);
   });
 
   it('should delete a resource', () => {
     const created = ResourceService.create({
-        topicId: 'resorce-delete',
+        topicId: 'resource-delete',
         url: 'http://www.articleweb.com/howtodelete',
         description: 'How to delete',
         type: 'article',
