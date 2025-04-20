@@ -2,11 +2,12 @@ import request from 'supertest';
 import app from '../../src/app';
 import fs from 'fs';
 import path from 'path';
+import { createTestUser } from '../utils/createUser';
 
-const filePath = path.join(__dirname, '../../test/database/user.test.json');
+const userPath = path.join(__dirname, '../../test/database/user.test.json');
 
 beforeEach(() => {
-  fs.writeFileSync(filePath, JSON.stringify([])); // clean the file before each test
+  fs.writeFileSync(userPath, JSON.stringify([])); // clean the file before each test
 });
 
 describe('Integration: Users', () => {
@@ -14,8 +15,8 @@ describe('Integration: Users', () => {
     const res = await request(app)
       .post('/users')
       .send({
-        name: 'User 01 Admin',
-        email: 'user01admin@kbapi.com',
+        name: 'Admin',
+        email: 'admin@test.com',
         role: 'Admin'
       });
 
@@ -25,41 +26,43 @@ describe('Integration: Users', () => {
   });
 
   it('should list all users', async () => {
-    await request(app).post('/users').send({
-      name: 'User 02 Editor',
-      email: 'user02editor@kbapi.com',
-      role: 'Editor'
-    });
+    const editor = await createTestUser('Editor');
+    const admin = await createTestUser('Admin');
 
-    const res = await request(app).get('/users');
+    const res = await request(app)
+      .get('/users')
+      .set('x-user-id', admin.id); // Admin required
+
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.body.length).toBeGreaterThanOrEqual(2); // editor + admin
   });
 
   it('should retrieve a user by ID', async () => {
-    const { body: user } = await request(app).post('/users').send({
-      name: 'User 03 Viewer',
-      email: 'user03viewer@kbapi.com',
-      role: 'Viewer'
-    });
+    const viewer = await createTestUser('Viewer');
 
-    const res = await request(app).get(`/users/${user.id}`);
+    const res = await request(app)
+      .get(`/users/${viewer.id}`)
+      .set('x-user-id', viewer.id); // user accessing own data
+
     expect(res.status).toBe(200);
-    expect(res.body.email).toBe('user03viewer@kbapi.com');
+    expect(res.body.email).toBe(viewer.email); // ensures match even with unique email
   });
 
   it('should delete a user', async () => {
-    const { body: user } = await request(app).post('/users').send({
-      name: 'User 04 Viewer',
-      email: 'user04viewer@kbapi.com',
-      role: 'Viewer'
-    });
+    const toDelete = await createTestUser('Editor');
+    const admin = await createTestUser('Admin');
 
-    const res = await request(app).delete(`/users/${user.id}`);
+    const res = await request(app)
+      .delete(`/users/${toDelete.id}`)
+      .set('x-user-id', admin.id); // Only Admin can delete
+
     expect(res.status).toBe(204);
 
-    const check = await request(app).get(`/users/${user.id}`);
+    const check = await request(app)
+      .get(`/users/${toDelete.id}`)
+      .set('x-user-id', admin.id); // Use Admin to confirm deletion
+
     expect(check.status).toBe(404);
   });
 });
