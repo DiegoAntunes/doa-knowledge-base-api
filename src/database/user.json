@@ -19,5 +19,12 @@
     "role": "Viewer",
     "id": "1783f206-c9bd-4f24-a8ed-dfc4bdfa6bdc",
     "createdAt": "2025-04-20T15:26:23.234Z"
+  },
+  {
+    "name": "Viewer to delete",
+    "email": "viewertodelete@test.com",
+    "role": "Viewer",
+    "id": "dee6ceab-6229-4534-8a3e-25a3e8784e1d",
+    "createdAt": "2025-04-20T15:26:23.234Z"
   }
 ]
