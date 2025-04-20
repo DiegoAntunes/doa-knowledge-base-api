@@ -1,4 +1,4 @@
-# 🧠 Dynamic Knowledge Base API
+# Dynamic Knowledge Base API
 
 A RESTful API built with Node.js and TypeScript to manage a **Dynamic Knowledge Base System**. It supports:
 
