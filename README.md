@@ -80,7 +80,7 @@ x-user-id: <user_id>
 
 ## API Endpoints
 
-### 🔹 Topics
+### Topics
 
 | Method | Endpoint                                 | Description                          |
 |--------|------------------------------------------|--------------------------------------|
@@ -97,7 +97,7 @@ x-user-id: <user_id>
 | GET    | `/topics/:id/tree-composite`             | Retrieve topic tree using Composite  |
 | GET    | `/topics/path?from=A&to=B`               | Shortest path between two topics     |
 
-### 🔹 Resources
+### Resources
 
 | Method | Endpoint                          | Description                      |
 |--------|-----------------------------------|----------------------------------|
@@ -109,7 +109,7 @@ x-user-id: <user_id>
 | GET    | `/resources/topic/:topicId`       | Get resources by topic ID        |
 
 
-### 🔹 Users
+### Users
 
 | Method | Endpoint          | Description                          |
 |--------|-------------------|--------------------------------------|
@@ -139,7 +139,7 @@ npm test
 
 ---
 
-## 🎯 Design Patterns Used
+## Design Patterns Used
 
 | Pattern    | Purpose                                   |
 |------------|-------------------------------------------|
@@ -174,7 +174,7 @@ test/
 
 ---
 
-## ✅ Requirements Coverage
+## Requirements Coverage
 
 - [x] CRUD for Topics with Version Control
 - [x] Recursive Hierarchical Retrieval
@@ -188,7 +188,7 @@ test/
 
 ---
 
-## 📌 Submission Notes
+## Submission Notes
 
 This project was built to fulfill a technical challenge with focus on:
 
