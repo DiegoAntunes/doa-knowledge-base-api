@@ -76,17 +76,20 @@ export class TopicController {
   }
   
   static create(req: Request, res: Response) {
-    const role = (req.headers['x-user-role'] as string) || 'Viewer';
-    const permission = new PermissionContext(role);
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+  
+    const permission = new PermissionContext(req.user.role);
     if (!permission.canCreate()) {
       return res.status(403).json({ error: 'User not allowed to create topics' });
     }
-    
+  
     const { name, content, parentTopicId } = req.body;
     if (!name || !content) {
       return res.status(400).json({ error: 'Mandatory fields: name, content' });
     }
-
+  
     try {
       const topic = TopicService.create({ name, content, parentTopicId });
       res.status(201).json(topic);
@@ -96,24 +99,30 @@ export class TopicController {
   }
 
   static update(req: Request, res: Response) {
-    const role = (req.headers['x-user-role'] as string) || 'Viewer';
-    const permission = new PermissionContext(role);
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+  
+    const permission = new PermissionContext(req.user.role);
     if (!permission.canEdit()) {
       return res.status(403).json({ error: 'User not allowed to edit topics' });
     }
-
+  
     const updated = TopicService.update(req.params.id, req.body);
     if (!updated) return res.status(404).json({ error: 'Topic not found' });
     res.json(updated);
   }
 
   static delete(req: Request, res: Response) {
-    const role = (req.headers['x-user-role'] as string) || 'Viewer';
-    const permission = new PermissionContext(role);
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+  
+    const permission = new PermissionContext(req.user.role);
     if (!permission.canDelete()) {
       return res.status(403).json({ error: 'User not allowed to delete topics' });
     }
-
+  
     const success = TopicService.delete(req.params.id);
     if (!success) return res.status(404).json({ error: 'Topic not found' });
     res.status(204).send();
